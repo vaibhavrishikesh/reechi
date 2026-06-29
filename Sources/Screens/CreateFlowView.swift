@@ -1,5 +1,6 @@
 import SwiftUI
 import PhotosUI
+import Photos
 
 struct CreateFlowView: View {
     let style: PhotoStyle
@@ -11,7 +12,9 @@ struct CreateFlowView: View {
     @State private var sourceImage: UIImage?
     @State private var resultImage: UIImage?
     @State private var progress: Double = 0
-    @State private var showSaved = false
+    @State private var toast: Toast?
+
+    struct Toast: Equatable { let text: String; let ok: Bool }
 
     var body: some View {
         ZStack {
@@ -110,7 +113,7 @@ struct CreateFlowView: View {
                 .font(.title3.bold()).foregroundStyle(.white)
 
             HStack(spacing: 12) {
-                Button { withAnimation { showSaved = true } } label: {
+                Button { saveToPhotos() } label: {
                     actionLabel("Save", "square.and.arrow.down")
                 }
                 if let resultImage {
@@ -130,13 +133,13 @@ struct CreateFlowView: View {
         }
         .padding(20)
         .overlay(alignment: .top) {
-            if showSaved {
-                Label("Saved to Photos", systemImage: "checkmark.circle.fill")
+            if let toast {
+                Label(toast.text, systemImage: toast.ok ? "checkmark.circle.fill" : "exclamationmark.triangle.fill")
                     .font(.subheadline.bold()).foregroundStyle(.white)
                     .padding(.horizontal, 16).padding(.vertical, 10)
-                    .background(.green.opacity(0.9), in: Capsule())
+                    .background((toast.ok ? Color.green : Color.red).opacity(0.9), in: Capsule())
                     .padding(.top, 8).transition(.move(edge: .top).combined(with: .opacity))
-                    .task { try? await Task.sleep(nanoseconds: 1_600_000_000); withAnimation { showSaved = false } }
+                    .task(id: toast) { try? await Task.sleep(nanoseconds: 1_800_000_000); withAnimation { self.toast = nil } }
             }
         }
     }
@@ -165,6 +168,25 @@ struct CreateFlowView: View {
     }
 
     // MARK: Logic
+    private func saveToPhotos() {
+        guard let image = resultImage else { return }
+        PHPhotoLibrary.requestAuthorization(for: .addOnly) { status in
+            guard status == .authorized || status == .limited else {
+                show(Toast(text: "Allow photo access in Settings", ok: false))
+                return
+            }
+            PHPhotoLibrary.shared().performChanges {
+                PHAssetCreationRequest.creationRequestForAsset(from: image)
+            } completionHandler: { success, _ in
+                show(Toast(text: success ? "Saved to Photos" : "Couldn’t save", ok: success))
+            }
+        }
+    }
+
+    private func show(_ t: Toast) {
+        Task { @MainActor in withAnimation { toast = t } }
+    }
+
     private func startGenerating() {
         progress = 0
         stage = .generating

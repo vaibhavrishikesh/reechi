@@ -25,4 +25,5 @@ targets:
         INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: "YES"
         INFOPLIST_KEY_UISupportedInterfaceOrientations: "UIInterfaceOrientationPortrait"
         INFOPLIST_KEY_NSPhotoLibraryUsageDescription: "Pick a photo to restyle with AI."
+        INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription: "Save your AI-styled photos to your library."
         TARGETED_DEVICE_FAMILY: "1"
