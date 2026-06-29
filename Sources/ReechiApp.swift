@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct AIPhotoStylesApp: App {
+struct ReechiApp: App {
     var body: some Scene {
         WindowGroup {
             RootView()

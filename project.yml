@@ -1,4 +1,4 @@
-name: AIPhotoStyles
+name: Reechi
 options:
   bundleIdPrefix: com.tranquilwaters
   deploymentTarget:
@@ -11,21 +11,20 @@ settings:
     CODE_SIGNING_REQUIRED: "NO"
     CODE_SIGNING_ALLOWED: "NO"
 targets:
-  AIPhotoStyles:
+  Reechi:
     type: application
     platform: iOS
     sources:
       - path: Sources
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.tranquilwaters.aiphotostyles
+        PRODUCT_BUNDLE_IDENTIFIER: com.tranquilwaters.reechi
         MARKETING_VERSION: "0.1"
         CURRENT_PROJECT_VERSION: "1"
         GENERATE_INFOPLIST_FILE: "YES"
-        INFOPLIST_KEY_CFBundleDisplayName: "Photo Styles"
+        INFOPLIST_KEY_CFBundleDisplayName: "Reechi"
         INFOPLIST_KEY_UILaunchScreen_Generation: "YES"
         INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: "YES"
         INFOPLIST_KEY_UISupportedInterfaceOrientations: "UIInterfaceOrientationPortrait"
         INFOPLIST_KEY_NSPhotoLibraryUsageDescription: "Pick a photo to restyle with AI."
         TARGETED_DEVICE_FAMILY: "1"
-        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: ""

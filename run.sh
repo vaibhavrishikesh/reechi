@@ -3,12 +3,12 @@
 set -e
 cd "$(dirname "$0")"
 SIM="iPhone 16"
-BUNDLE="com.tranquilwaters.aiphotostyles"
-APP="build/Build/Products/Debug-iphonesimulator/AIPhotoStyles.app"
+BUNDLE="com.tranquilwaters.reechi"
+APP="build/Build/Products/Debug-iphonesimulator/Reechi.app"
 
 echo "▸ xcodegen…"; xcodegen generate >/dev/null
 echo "▸ build…"
-xcodebuild -project AIPhotoStyles.xcodeproj -scheme AIPhotoStyles \
+xcodebuild -project Reechi.xcodeproj -scheme Reechi \
   -sdk iphonesimulator -configuration Debug \
   -destination "platform=iOS Simulator,name=$SIM" \
   -derivedDataPath build CODE_SIGNING_ALLOWED=NO 2>&1 | tail -1
@@ -21,4 +21,4 @@ echo "▸ launch…"
 xcrun simctl terminate booted "$BUNDLE" 2>/dev/null || true
 xcrun simctl launch booted "$BUNDLE"
 sleep 2
-xcrun simctl io booted screenshot "/tmp/aiphotostyles.png" >/dev/null 2>&1 && echo "▸ shot: /tmp/aiphotostyles.png"
+xcrun simctl io booted screenshot "/tmp/reechi.png" >/dev/null 2>&1 && echo "▸ shot: /tmp/reechi.png"

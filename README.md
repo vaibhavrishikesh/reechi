@@ -1,6 +1,8 @@
-# AI Photo Styles
+# Reechi 🍒
 
-Selfie → trending AI art styles (Action Figure, Ghibli, Anime, Polaroid…) in 2 taps.
+**Reechi — AI Photo & Art Styles.** Turn your selfie into trending AI art styles
+(Action Figure, Ghibli, Anime, Polaroid…) in 2 taps.
+
 First iOS app — SwiftUI. Built and run **entirely from the CLI** (no Xcode GUI required).
 
 > Current state: **working MVP glimpse** — onboarding + paywall + home (style grid) +
@@ -20,11 +22,11 @@ Or manually:
 
 ```bash
 xcodegen generate
-xcodebuild -project AIPhotoStyles.xcodeproj -scheme AIPhotoStyles \
+xcodebuild -project Reechi.xcodeproj -scheme Reechi \
   -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 16' \
   -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
-xcrun simctl install booted build/Build/Products/Debug-iphonesimulator/AIPhotoStyles.app
-xcrun simctl launch booted com.tranquilwaters.aiphotostyles
+xcrun simctl install booted build/Build/Products/Debug-iphonesimulator/Reechi.app
+xcrun simctl launch booted com.tranquilwaters.reechi
 ```
 
 The Xcode project is generated from `project.yml` by xcodegen, so it is **not** committed.
@@ -34,7 +36,7 @@ The Xcode project is generated from `project.yml` by xcodegen, so it is **not** 
 ```
 project.yml                  # xcodegen spec (source of truth for the .xcodeproj)
 Sources/
-  AIPhotoStylesApp.swift      # @main entry
+  ReechiApp.swift             # @main entry
   RootView.swift              # onboarding gate → Home
   Theme.swift                 # colors / brand gradient
   StyleTransformer.swift      # MOCK per-style CoreImage transform

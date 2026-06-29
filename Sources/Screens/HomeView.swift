@@ -41,8 +41,8 @@ struct HomeView: View {
     private var header: some View {
         HStack(alignment: .center) {
             VStack(alignment: .leading, spacing: 2) {
-                Text("AI Photo Styles")
-                    .font(.system(size: 28, weight: .heavy))
+                Text("Reechi")
+                    .font(.system(size: 32, weight: .heavy))
                     .foregroundStyle(Theme.brand)
                 Text("Turn your selfie into trending art")
                     .font(.subheadline)
