@@ -14,4 +14,8 @@ xcuserdata/
 
 # Secrets / local config (never commit API keys)
 *.env
+.env
 Secrets.xcconfig
+
+# Node (server/)
+node_modules/

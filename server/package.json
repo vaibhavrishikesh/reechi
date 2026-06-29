@@ -1,0 +1,11 @@
+{
+  "name": "reechi-proxy",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Reechi AI proxy — keeps the provider API key off the device.",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "start": "node index.js"
+  }
+}

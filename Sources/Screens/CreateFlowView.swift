@@ -188,17 +188,44 @@ struct CreateFlowView: View {
     }
 
     private func startGenerating() {
+        guard let src = sourceImage else { return }
         progress = 0
         stage = .generating
         Task {
-            for i in 1...60 {
-                try? await Task.sleep(nanoseconds: 40_000_000) // ~2.4s total
-                progress = Double(i) / 60.0
-            }
-            if let src = sourceImage {
+            if let url = Config.backendURL {
+                // Real AI generation via the proxy backend.
+                let pulse = creepingProgress()      // inch the ring forward while we wait
+                do {
+                    let result = try await StyleService(baseURL: url).generate(style: style, image: src)
+                    pulse.cancel()
+                    withAnimation { progress = 1 }
+                    resultImage = result
+                    withAnimation { stage = .result }
+                } catch {
+                    pulse.cancel()
+                    show(Toast(text: "Generation failed — try again", ok: false))
+                    withAnimation { stage = .pick }
+                }
+            } else {
+                // Offline mock fallback (no backend configured).
+                for i in 1...60 {
+                    try? await Task.sleep(nanoseconds: 40_000_000) // ~2.4s total
+                    progress = Double(i) / 60.0
+                }
                 resultImage = StyleTransformer.apply(style: style, to: src)
+                withAnimation { stage = .result }
             }
-            withAnimation { stage = .result }
+        }
+    }
+
+    /// Animate the progress ring up to ~90% while a real request is in flight,
+    /// so the wait feels alive even though we don't get real provider progress.
+    private func creepingProgress() -> Task<Void, Never> {
+        Task { @MainActor in
+            while !Task.isCancelled && progress < 0.9 {
+                try? await Task.sleep(nanoseconds: 350_000_000)
+                withAnimation { progress = min(0.9, progress + 0.04) }
+            }
         }
     }
 }
